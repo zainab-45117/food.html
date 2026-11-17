@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Taste | Zainab Shoaib</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #d6ad60;
+  --black: #090909;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: #f7f1e7;
+  font-family: Montserrat, Arial, sans-serif;
+}
+
+h1, h2, h3, .serif {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+.gold {
+  color: var(--gold);
+}
+
+.gold-btn {
+  background: linear-gradient(135deg, #f0d69b, #b8893e);
+  color: #100d08;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.gold-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.outline-btn {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 9px 15px;
+}
+
+.outline-btn:hover {
+  background: var(--gold);
+  color: #111;
+}
+
+.navlink {
+  color: #ddd;
+  transition: .2s;
+}
+
+.navlink:hover,
+.navlink.active {
+  color: var(--gold);
+}
+
+.page {
+  display: none;
+  min-height: 75vh;
+}
+
+.page.active {
+  display: block;
+}
+
+.panel {
+  background: linear-gradient(145deg, #1a1a1a, #101010);
+  border: 1px solid #3b3020;
+}
+
+.food-card {
+  background: #151515;
+  border: 1px solid #3b3020;
+  transition: .25s;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+}
+
+.food-img {
+  height: 190px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.field {
+  width: 100%;
+  background: #0d0d0d;
+  border: 1px solid #51432c;
+  color: white;
+  padding: 12px 14px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--gold);
+}
+
+.muted {
+  color: #b9b1a4;
+}
+
+.hero {
+  background:
+  linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,.38)),
+  url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85')
+  center/cover;
+}
+
+.section-kicker {
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-size: 11px;
+}
+
+.page-wrap {
+  max-width: 1180px;
+  margin: auto;
+  padding: 65px 22px;
+}
+
+.cart-count {
+  background: var(--gold);
+  color: #111;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+@media(max-width:760px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+  }
+
+  .hero h1 {
+    font-size: 3.3rem;
+  }
+
+  .food-img {
+    height: 170px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<header class="sticky top-0 z-50 bg-black/95 border-b border-[#4a3920]">
+
+<div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between gap-4">
+
+<button onclick="showPage('home')" class="text-left">
+<div class="serif text-3xl gold leading-none">Royal Taste</div>
+<div class="text-[9px] tracking-[.25em] text-gray-400 mt-1">
+BY ZAINAB SHOAIB
+</div>
+</button>
+
+<nav class="desktop-nav flex items-center gap-5 text-xs">
+<button class="navlink active" data-page="home" onclick="showPage('home')">Home</button>
+<button class="navlink" data-page="about" onclick="showPage('about')">About</button>
+<button class="navlink" data-page="menu" onclick="showPage('menu')">Full Menu</button>
+<button class="navlink" data-page="details" onclick="showPage('details')">Food Details</button>
+<button class="navlink" data-page="checkout" onclick="showPage('checkout')">Checkout</button>
+<button class="navlink" data-page="reservation" onclick="showPage('reservation')">Reservation</button>
+<button class="navlink" data-page="contact" onclick="showPage('contact')">Contact</button>
+<button class="navlink" data-page="summary" onclick="showPage('summary')">Order Summary</button>
+<button class="navlink" data-page="admin" onclick="showPage('admin')">Management</button>
+</nav>
+
+<button onclick="showPage('checkout')" class="outline-btn text-xs">
+Cart <span id="cartCount" class="cart-count">0</span>
+</button>
+
+</div>
+
+<nav class="mobile-nav hidden flex items-center overflow-x-auto gap-8 px-5 pb-3 text-xs whitespace-nowrap">
+<button class="navlink" onclick="showPage('home')">Home</button>
+<button class="navlink" onclick="showPage('about')">About</button>
+<button class="navlink" onclick="showPage('menu')">Menu</button>
+<button class="navlink" onclick="showPage('details')">Food Details</button>
+<button class="navlink" onclick="showPage('checkout')">Checkout</button>
+<button class="navlink" onclick="showPage('reservation')">Reservation</button>
+<button class="navlink" onclick="showPage('contact')">Contact</button>
+<button class="navlink" onclick="showPage('summary')">Summary</button>
+<button class="navlink" onclick="showPage('admin')">Management</button>
+</nav>
+
+</header>
+
+<main>
+
+<!-- 1 HOME PAGE -->
+
+<section id="home" class="page active">
+
+<div class="hero min-h-[620px] flex items-center">
+
+<div class="max-w-7xl mx-auto px-6 py-24 w-full">
+
+<p class="section-kicker mb-5">
+An unforgettable dining experience
+</p>
+
+<h1 class="text-6xl md:text-8xl leading-[.9] max-w-3xl">
+Taste the art of
+<span class="gold italic">fine dining.</span>
+</h1>
+
+<p class="muted max-w-lg mt-7 leading-7 text-sm">
+A refined celebration of flavour, crafted with passion and served with elegance. Welcome to Royal Taste by Zainab Shoaib.
+</p>
+
+<div class="flex gap-3 mt-9 flex-wrap">
+<button class="gold-btn px-7 py-3 text-xs" onclick="showPage('menu')">
+EXPLORE MENU
+</button>
+
+<button class="outline-btn px-7 py-3 text-xs" onclick="showPage('reservation')">
+BOOK A TABLE
+</button>
+</div>
+
+</div>
+</div>
+
+<div class="page-wrap text-center">
+<p class="section-kicker">Our signature selection</p>
+
+<h2 class="text-5xl mt-2">
+Made to be <span class="gold italic">remembered</span>
+</h2>
+
+<div id="homeFeatured" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10"></div>
+</div>
+
+</section>
+
+<!-- 2 ABOUT PAGE -->
+
+<section id="about" class="page">
+
+<div class="page-wrap grid md:grid-cols-2 gap-12 items-center">
+
+<img class="w-full h-[430px] object-cover"
+src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&q=85"
+alt="Fine dining table">
+
+<div>
+
+<p class="section-kicker">Our story</p> 
+
+<h1 class="text-6xl mt-3">
+A little more <span class="gold italic">than dining.</span>
+</h1>
+
+<p class="muted leading-8 mt-6 text-sm">
+Royal Taste brings together thoughtful ingredients, warm hospitality and a love for beautiful food. Every plate is prepared with care, every visit is designed to feel special.
+</p>
+
+<p class="gold mt-6 text-xs tracking-widest">
+FOUNDED WITH PASSION · BY ZAINAB SHOAIB
+</p>
+
+<button class="gold-btn px-6 py-3 mt-8 text-xs" onclick="showPage('menu')">
+DISCOVER OUR MENU
+</button>
+
+</div>
+</div>
+</section>
+
+<!-- 3 FULL MENU PAGE -->
+
+<section id="menu" class="page">
+
+<div class="page-wrap">
+
+<div class="text-center">
+<p class="section-kicker">Discover our dishes</p>
+
+<h1 class="text-6xl mt-2">
+The <span class="gold italic">full menu</span>
+</h1>
+
+<p class="muted text-sm mt-3">
+Freshly prepared favourites for every occasion.
+</p>
+</div>
+
+<div class="flex flex-col md:flex-row gap-3 mt-10">
+
+<input id="menuSearch" class="field md:max-w-sm"
+placeholder="Search dishes..." oninput="renderMenu()">
+
+<select id="categoryFilter" class="field md:max-w-xs" onchange="renderMenu()">
+<option value="All">All Categories</option>
+<option>Starters</option>
+<option>Main Course</option>
+<option>Desserts</option>
+<option>Drinks</option>
+</select>
+
+<select id="sortFilter" class="field md:max-w-xs" onchange="renderMenu()">
+<option value="default">Sort: Featured</option>
+<option value="low">Price: Low to High</option>
+<option value="high">Price: High to Low</option>
+</select>
+
+</div>
+
+<div id="menuGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-7"></div>
+
+</div>
+</section>
+
+<!-- 4 FOOD DETAILS PAGE -->
+
+<section id="details" class="page">
+
+<div class="page-wrap">
+
+<p class="section-kicker">Chef's recommendations</p>
+
+<h1 class="text-6xl mt-2">
+Food <span class="gold italic">details</span>
+</h1>
+
+<p class="muted text-sm mt-3">
+Explore our featured dishes and add your favourites to the cart.
+</p>
+
+<div id="detailsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-9"></div>
+
+</div>
+</section>
+
+<!-- 5 CHECKOUT PAGE -->
+
+<section id="checkout" class="page">
+
+<div class="page-wrap grid lg:grid-cols-[1.4fr_.8fr] gap-10">
+
+<div>
+<p class="section-kicker">Your selection</p>
+
+<h1 class="text-6xl mt-2">
+Shopping <span class="gold italic">cart</span>
+</h1>
+
+<div id="cartItems" class="mt-8"></div>
+</div>
+
+<div class="panel p-6 h-fit">
+
+<h2 class="text-3xl gold">Order total</h2>
+
+<div class="flex justify-between mt-6 text-sm">
+<span class="muted">Subtotal</span>
+<span id="subtotal">Rs 0</span>
+</div>
+
+<div class="flex gap-2 mt-5">
+<input id="promoInput" class="field" placeholder="Promo code">
+<button class="gold-btn px-4 text-xs" onclick="applyPromo()">APPLY</button>
+</div>
+
+<p id="promoMessage" class="text-xs muted mt-2">
+Try Zainab for 10% off.
+</p>
+
+<div class="flex justify-between mt-4 text-sm">
+<span class="muted">Discount</span>
+<span id="discount">Rs 0</span>
+</div>
+
+<div class="border-t border-[#51432c] mt-5 pt-5 flex justify-between text-lg">
+<b>Total</b>
+<b id="total" class="gold">Rs 0</b>
+</div>
+
+<button class="gold-btn w-full py-4 mt-7 text-xs" onclick="placeOrder()">
+PLACE ORDER
+</button>
+
+</div>
+</div>
+</section>
+
+<!-- 6 RESERVATION PAGE -->
+
+<section id="reservation" class="page">
+
+<div class="page-wrap max-w-3xl">
+
+<div class="text-center">
+<p class="section-kicker">Your table awaits</p>
+
+<h1 class="text-6xl mt-2">
+Make a <span class="gold italic">reservation</span>
+</h1>
+
+<p class="muted text-sm mt-3">
+Reserve a table for your next special moment.
+</p>
+</div>
+
+<form id="reservationForm" class="panel p-7 md:p-10 grid sm:grid-cols-2 gap-5 mt-10">
+
+<label class="text-xs muted">
+Full Name
+<input required name="name" class="field mt-2" placeholder="Your name">
+</label>
+
+<label class="text-xs muted">
+Email Address
+<input required type="email" name="email" class="field mt-2" placeholder="you@example.com">
+</label>
+
+<label class="text-xs muted">
+Date
+<input required type="date" name="date" class="field mt-2">
+</label>
+
+<label class="text-xs muted">
+Time
+<input required type="time" name="time" class="field mt-2">
+</label>
+
+<label class="text-xs muted">
+Guests
+<select name="guests" class="field mt-2">
+<option>1</option><option>2</option><option>3</option>
+<option>4</option><option>5</option><option>6</option><option>7+</option>
+</select>
+</label>
+
+<label class="text-xs muted">
+Occasion
+<select name="occasion" class="field mt-2">
+<option>Just dining</option>
+<option>Birthday</option>
+<option>Anniversary</option>
+<option>Business dinner</option>
+</select>
+</label>
+
+<label class="text-xs muted sm:col-span-2">
+Special Request
+<textarea name="request" class="field mt-2" rows="3" placeholder="Any special requests?"></textarea>
+</label>
+
+<button class="gold-btn py-4 text-xs sm:col-span-2">
+REQUEST RESERVATION
+</button>
+
+</form>
+
+<p id="reservationMessage" class="gold text-center text-sm mt-5"></p>
+
+</div>
+</section>
+
+<!-- 7 CONTACT PAGE -->
+
+<section id="contact" class="page">
+
+<div class="page-wrap grid md:grid-cols-2 gap-12">
+
+<div>
+
+<p class="section-kicker">We would love to hear from you</p>
+
+<h1 class="text-6xl mt-3">
+Get in <span class="gold italic">touch.</span>
+</h1>
+
+<p class="muted text-sm leading-7 mt-6">
+Questions, celebrations or a special request? Send us a message and our team will be happy to help.
+</p>
+
+<div class="mt-8 space-y-4 text-sm">
+<p><span class="gold">Email</span><br>Zainab.shoaib.gamil.example</p>
+<p><span class="gold">Phone</span><br>+92 3317746976</p>
+<p><span class="gold">Location</span><br>Faisalabad, Pakistan</p>
+</div>
+
+</div>
+
+<form id="contactForm" class="panel p-7 space-y-4">
+
+<input required class="field" placeholder="Your name">
+<input required type="email" class="field" placeholder="Email address">
+<input class="field" placeholder="Subject">
+<textarea required class="field" rows="5" placeholder="Your message"></textarea>
+
+<button class="gold-btn w-full py-4 text-xs">SEND MESSAGE</button>
+
+<p id="contactMessage" class="gold text-xs"></p>
+
+</form>
+
+</div>
+</section>
+
+<!-- 8 ORDER SUMMARY PAGE -->
+
+<section id="summary" class="page">
+
+<div class="page-wrap max-w-4xl">
+
+<p class="section-kicker">Thank you for choosing us</p>
+
+<h1 class="text-6xl mt-2">
+Order <span class="gold italic">summary</span>
+</h1>
+
+<div id="orderSummary" class="panel p-7 mt-8">
+<p class="muted text-sm">Your completed order will appear here.</p>
+</div>
+
+<button class="outline-btn px-6 py-3 mt-6 text-xs" onclick="showPage('menu')">
+CONTINUE EXPLORING
+</button>
+
+</div>
+</section>
+
+<!-- 9 MANAGEMENT PAGE -->
+
+<section id="admin" class="page">
+
+<div class="page-wrap">
+
+<p class="section-kicker">Restaurant tools</p>
+
+<h1 class="text-6xl mt-2">
+Management <span class="gold italic">dashboard</span>
+</h1>
+
+<p class="muted text-sm mt-3">
+Demo dashboard for viewing orders and reservations saved in this browser.
+</p>
+
+<div class="grid sm:grid-cols-3 gap-4 mt-8">
+
+<div class="panel p-6">
+<p class="muted text-xs">Menu items</p>
+<p id="adminMenuCount" class="text-4xl gold serif mt-2">0</p>
+</div>
+
+<div class="panel p-6">
+<p class="muted text-xs">Orders this session</p>
+<p id="adminOrderCount" class="text-4xl gold serif mt-2">0</p>
+</div>
+
+<div class="panel p-6">
+<p class="muted text-xs">Reservations this session</p>
+<p id="adminReservationCount" class="text-4xl gold serif mt-2">0</p>
+</div>
+
+</div>
+
+<h2 class="text-3xl gold mt-10">Recent reservations</h2>
+<div id="adminReservations" class="panel p-5 mt-4 text-sm muted">No reservations yet.</div>
+
+<h2 class="text-3xl gold mt-10">Recent orders</h2>
+<div id="adminOrders" class="panel p-5 mt-4 text-sm muted">No orders yet.</div>
+
+</div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="border-t border-[#4a3920] bg-[#080808]">
+
+<div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between gap-5">
+
+<div>
+<div class="serif text-3xl gold">Royal Taste</div>
+<p class="text-[10px] tracking-[.2em] text-gray-500 mt-1">BY ZAINAB SHOAIB</p>
+</div>
+
+<p class="muted text-xs self-center">
+Fine dining. Beautiful moments. © 2026 Royal Taste.
+</p>
+
+<button onclick="showPage('reservation')" class="outline-btn px-5 py-3 text-xs self-start">
+RESERVE A TABLE
+</button>
+
+</div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
